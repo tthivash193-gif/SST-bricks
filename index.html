@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -14,6 +14,7 @@ body{
   font-family:Poppins;
   background:#111;
   color:white;
+  scroll-behavior:smooth;
 }
 
 /* NAV */
@@ -23,7 +24,8 @@ header{
   display:flex;
   justify-content:space-between;
   padding:15px;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
   z-index:100;
 }
 
@@ -33,49 +35,44 @@ nav a{
   text-decoration:none;
 }
 
-/* HERO WITH YOUR IMAGE */
+/* HERO PREMIUM */
 .hero{
   height:100vh;
-  background:url('bricks.jpg') center/cover no-repeat;
+  background:
+    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+    url('./bricks.jpg') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
-  position:relative;
 }
 
-/* OVERLAY */
-.hero::after{
-  content:'';
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.6);
-  top:0;
-  left:0;
-}
-
-/* HERO TEXT */
+/* HERO BOX */
 .hero-box{
-  position:relative;
-  z-index:1;
-  background:rgba(0,0,0,0.6);
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(10px);
   padding:40px;
-  border-radius:15px;
+  border-radius:20px;
   text-align:center;
+  box-shadow:0 0 30px rgba(255,122,0,0.3);
 }
 
 .hero h1{
-  font-size:38px;
+  font-size:40px;
 }
 
 /* BUTTON */
 .btn{
   margin-top:15px;
   padding:12px 25px;
-  background:#ff7a00;
+  background:linear-gradient(45deg,#ff7a00,#ff3c00);
   border-radius:30px;
   color:white;
   border:none;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
 }
 
 /* PRODUCTS */
@@ -87,8 +84,8 @@ nav a{
   background:#1a1a1a;
   border-radius:15px;
   overflow:hidden;
-  box-shadow:0 0 20px rgba(255,122,0,0.4);
   text-align:center;
+  box-shadow:0 0 25px rgba(255,122,0,0.3);
 }
 
 .card img{
@@ -147,7 +144,7 @@ footer{
 <!-- PRODUCT -->
 <section id="products" class="products">
   <div class="card">
-    <img src="bricks.jpg">
+    <img src="./bricks.jpg">
     <h2>Red Bricks</h2>
     <p>₹8 / brick</p>
   </div>
@@ -184,7 +181,6 @@ function scrollToOrder(){
   document.getElementById("order").scrollIntoView({behavior:"smooth"});
 }
 
-/* WHATSAPP WORKING FIX */
 function sendWhatsApp(){
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
