@@ -35,25 +35,21 @@ nav a{
   text-decoration:none;
 }
 
-/* HERO PREMIUM */
+/* HERO */
 .hero{
   height:100vh;
-  background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
-    url('./bricks.jpg') center/cover no-repeat;
+  background:url('./bricks.jpg') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-/* HERO BOX */
+/* HERO TEXT */
 .hero-box{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(10px);
+  background:rgba(0,0,0,0.7);
   padding:40px;
-  border-radius:20px;
+  border-radius:15px;
   text-align:center;
-  box-shadow:0 0 30px rgba(255,122,0,0.3);
 }
 
 .hero h1{
@@ -64,18 +60,13 @@ nav a{
 .btn{
   margin-top:15px;
   padding:12px 25px;
-  background:linear-gradient(45deg,#ff7a00,#ff3c00);
+  background:#ff7a00;
   border-radius:30px;
   color:white;
   border:none;
-  transition:0.3s;
 }
 
-.btn:hover{
-  transform:scale(1.05);
-}
-
-/* PRODUCTS */
+/* PRODUCT */
 .products{
   padding:50px 20px;
 }
@@ -85,7 +76,6 @@ nav a{
   border-radius:15px;
   overflow:hidden;
   text-align:center;
-  box-shadow:0 0 25px rgba(255,122,0,0.3);
 }
 
 .card img{
@@ -136,7 +126,7 @@ footer{
 <section id="home" class="hero">
   <div class="hero-box">
     <h1>SST Premium Bricks</h1>
-    <p>Strong • Durable • Trusted</p>
+    <p id="priceText">₹8 / brick</p>
     <button class="btn" onclick="scrollToOrder()">Order Now</button>
   </div>
 </section>
@@ -144,9 +134,9 @@ footer{
 <!-- PRODUCT -->
 <section id="products" class="products">
   <div class="card">
-    <img src="./bricks.jpg">
+    <img id="productImg" src="./bricks.jpg">
     <h2>Red Bricks</h2>
-    <p>₹8 / brick</p>
+    <p id="priceText2">₹8 / brick</p>
   </div>
 </section>
 
@@ -155,7 +145,7 @@ footer{
 <h2>Place Order</h2>
 
 <input id="name" placeholder="Name">
-<input id="phone" placeholder="Phone Number">
+<input id="phone" placeholder="Phone">
 <input id="qty" type="number" placeholder="Quantity">
 
 <div class="total">Total: ₹<span id="total">0</span></div>
@@ -168,33 +158,49 @@ footer{
 
 <script>
 
-let price = 8;
+/* ADMIN LOAD */
+let price = localStorage.getItem("price") || 8;
+let img = localStorage.getItem("img") || "./bricks.jpg";
+
+/* APPLY DATA */
+document.getElementById("priceText").innerText = "₹" + price + " / brick";
+document.getElementById("priceText2").innerText = "₹" + price + " / brick";
+document.getElementById("productImg").src = img;
+document.querySelector(".hero").style.background =
+"url('" + img + "') center/cover no-repeat";
+
+/* TOTAL CALC */
 let qtyInput = document.getElementById("qty");
 let totalBox = document.getElementById("total");
 
-qtyInput.addEventListener("input", () => {
+qtyInput.addEventListener("input", function(){
   let qty = qtyInput.value || 0;
   totalBox.innerText = qty * price;
 });
 
+/* SCROLL */
 function scrollToOrder(){
   document.getElementById("order").scrollIntoView({behavior:"smooth"});
 }
 
+/* WHATSAPP */
 function sendWhatsApp(){
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
   let qty = document.getElementById("qty").value;
+  let total = qty * price;
 
   if(!name || !phone || !qty){
     alert("Fill all details");
     return;
   }
 
-  let msg = "SST Bricks Order\n"
-          + "Name: " + name + "\n"
-          + "Phone: " + phone + "\n"
-          + "Quantity: " + qty;
+  let msg =
+  "SST Bricks Order\n" +
+  "Name: " + name + "\n" +
+  "Phone: " + phone + "\n" +
+  "Quantity: " + qty + "\n" +
+  "Total: ₹" + total;
 
   let url = "https://api.whatsapp.com/send?phone=919876543210&text=" + encodeURIComponent(msg);
 
